@@ -30,19 +30,9 @@ const Notes: React.FC = () => {
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selectedNote, setSelectedNote] = useState<taskType | null>(null);
-    const user = useAppSelector(state => state.user.user.email);
 
     const listTaks = useAppSelector(state => state.user.user.tasks);
     const [editedTaks, setEditedTaks] = useState<taskType>({} as taskType);
-
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!user) {
-            navigate('/');
-        }
-    }, []);
 
     const handleClose = () => {
         setOpenAdd(false);

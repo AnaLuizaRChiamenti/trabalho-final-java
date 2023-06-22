@@ -150,6 +150,3 @@ const ResponsiveAppBar: React.FC = () => {
 };
 
 export default ResponsiveAppBar;
-function dispatch(arg0: any) {
-    throw new Error('Function not implemented.');
-}

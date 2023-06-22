@@ -25,7 +25,7 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
 
     useEffect(() => {
         if (mode === 'signup') {
-            const emailValid = (email.endsWith('.com') || email.endsWith('.com.br')) && email.includes('@');
+            const emailValid = (email.endsWith('.com') || email.endsWith('.com.br')) && email.includes('@'); // TODO fazer a validação de letra Aa
 
             if (email.length > 0) {
                 setErrorEmail(!emailValid);
@@ -58,7 +58,8 @@ const Form: React.FC<FormProps> = ({ mode, textButton }) => {
             dispatch(userLoginAsyncThunk(user));
             navigate('/notes');
         } else {
-            dispatch(userCreateAsyncThunk({email, password, repassword}));
+            dispatch(userCreateAsyncThunk({ email, password, repassword }));
+            navigate('/signin');
         }
     }
     return (
