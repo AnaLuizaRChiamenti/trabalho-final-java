@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userType from '../../types/userType';
 import api from '../../service';
+import { stat } from 'fs';
+import taskType from '../../types/taskType';
+import { taskCreateAsyncThunk } from './TaskSlice';
 
 interface userstate {
     user: userType;
@@ -53,10 +56,13 @@ export const userSlice = createSlice({
     reducers: {
         logout: () => {
             return initialState;
+        },
+        addTaskToUser: (state, action: PayloadAction<taskType>) => {
+            state.user.tasks.push(action.payload);
         }
     }
 });
 
 export default userSlice.reducer;
 
-export const { logout } = userSlice.actions;
+export const { logout, addTaskToUser } = userSlice.actions;

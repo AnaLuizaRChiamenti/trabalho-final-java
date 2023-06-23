@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import taskType from '../../types/taskType';
+import api from '../../service';
 
 interface taskState {
     task: taskType;
@@ -21,11 +21,16 @@ interface taskCreate {
 }
 
 export const taskCreateAsyncThunk = createAsyncThunk('task', async (newTask: taskCreate) => {
+    const email = newTask.email;
+    console.log(newTask);
+
     try {
-        const response = await axios.post(`/users/${newTask.email}/tasksUser`, {
+        const response = await api.post(`/tasks/${email}`, {
             title: newTask.title,
             description: newTask.description
         });
+        console.log(response);
+
         return response.data;
     } catch (error) {
         console.error('Erro ao criar tarefa:', error);

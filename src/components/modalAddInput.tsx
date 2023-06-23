@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import taskType from '../types/taskType';
 import { Alert } from '@mui/material';
 import { taskCreateAsyncThunk } from '../store/modules/TaskSlice';
-import { userCreateAsyncThunk, userLoginAsyncThunk } from '../store/modules/UserSlice';
 
 interface ModalInputsProps {
     openModal: boolean;
@@ -52,6 +51,7 @@ const ModalInputs: React.FC<ModalInputsProps> = ({ openModal, actionCancel, acti
 
         dispatch(taskCreateAsyncThunk(newTask));
         actionConfirm();
+        console.log(newTask);
     };
 
     return (
