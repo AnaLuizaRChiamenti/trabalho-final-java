@@ -10,7 +10,7 @@ import { Box } from '@mui/system';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import taskType from '../types/taskType';
 import { Alert } from '@mui/material';
-import { taskCreateAsyncThunk } from '../store/modules/TaskSlice';
+import { taskCreateAsyncThunk } from '../store/modules/UserSlice';
 
 interface ModalInputsProps {
     openModal: boolean;
@@ -20,7 +20,7 @@ interface ModalInputsProps {
 
 const ModalInputs: React.FC<ModalInputsProps> = ({ openModal, actionCancel, actionConfirm }) => {
     const dispatch = useAppDispatch();
-    const [task, setTask] = useState({} as taskType);
+    const [task, setTask] = useState<taskType>({ title: '', description: '', id: '', archived: false });
     const [alert, setAlert] = useState(false);
     const email = useAppSelector(state => state.user.user.email);
 
@@ -46,7 +46,7 @@ const ModalInputs: React.FC<ModalInputsProps> = ({ openModal, actionCancel, acti
         const newTask = {
             title: task.title,
             description: task.description,
-            email: email
+            email
         };
 
         dispatch(taskCreateAsyncThunk(newTask));

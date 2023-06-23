@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userType from '../../types/userType';
 import api from '../../service';
-import { stat } from 'fs';
-import taskType from '../../types/taskType';
-import { taskCreateAsyncThunk } from './TaskSlice';
 
 interface userstate {
     user: userType;
@@ -23,6 +20,12 @@ interface userCreate {
     repassword: string;
 }
 
+interface taskCreate {
+    title: string;
+    description: string;
+    email: string;
+}
+
 export const userLoginAsyncThunk = createAsyncThunk('login', async ({ email, password }: userLogin) => {
     const response = await api.post('/login', {
         email,
@@ -40,9 +43,29 @@ export const userCreateAsyncThunk = createAsyncThunk(
             password,
             repassword
         });
+        console.log(response);
+
         return response.data;
     }
 );
+
+export const taskCreateAsyncThunk = createAsyncThunk('task', async (newTask: taskCreate) => {
+    const email = newTask.email;
+    console.log(newTask);
+
+    try {
+        const response = await api.post(`/tasks/${email}`, {
+            title: newTask.title,
+            description: newTask.description
+        });
+        console.log(response);
+
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao criar tarefa:', error);
+        throw error;
+    }
+});
 
 export const userSlice = createSlice({
     name: 'User',
@@ -52,17 +75,17 @@ export const userSlice = createSlice({
             state.user.email = action.payload.email;
             state.user.password = action.payload.password;
         });
+        builder.addCase(taskCreateAsyncThunk.fulfilled, (state, action) => {
+            state.user.tasks.push(action.payload);
+        });
     },
     reducers: {
         logout: () => {
             return initialState;
-        },
-        addTaskToUser: (state, action: PayloadAction<taskType>) => {
-            state.user.tasks.push(action.payload);
         }
     }
 });
 
 export default userSlice.reducer;
 
-export const { logout, addTaskToUser } = userSlice.actions;
+export const { logout } = userSlice.actions;
